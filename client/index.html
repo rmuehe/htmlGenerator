@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.min.js" integrity="sha256-hV6Ff1ZbnLObO8BWHPZs1oA3aPZkX4bnnEKO4nX1sm0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.min.js" integrity="sha256-pMgPw2sArXEcjAzvhVgWZ4iS4Jm3NKrLG0mFWdrUwCE=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <h1>Login to Your Account</h1>
+    <form id="login">
+        <label for="username">Username:</label> <br>
+        <input type="text" id="username" name="username"> <br>
+        <label for="password">Password:</label> <br>
+        <input type="password" id="password" name="password"> <br>
+    </form>
+
+    <input type="reset" form="login">
+    <button id="submitLogin">Login</button>
+
+    <script>
+        $(document).ready(() => {
+            console.log( CryptoJS.MD5("hello").toString() );
+            $("#submitLogin").click(() => {
+
+                let username = $("#username").val();
+                let password = $("#password").val();
+
+                if (username === "" || username === " ") {
+                    // not a setter or getter, text only writes
+                    $("#error").text("Please type in a username");
+                }
+
+                if (password === "" || password === " ") {
+                    $("#error").text("Please type in a password");
+                }
+
+                // console.log("clicked");
+
+                // Structure of login package
+                const loginData = {
+                    username: username,
+                    password: CryptoJS.MD5(password).toString()
+                };
+                
+                $.post("http://localhost:3000/login", loginData, (data) => {
+                    console.log("The server has responded");
+                });
+
+                console.log(loginData);
+            });
+        });
+    </script>
+</body>
+</html>
