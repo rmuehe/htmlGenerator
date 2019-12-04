@@ -1,3 +1,4 @@
+const model = require("./model.js");
 const auth = require("./assets/auth.js");
 const express = require("express");
 const app = express();
@@ -19,7 +20,7 @@ app.post("/login", (req, res) => {
     let requestUsername = req.body.username;
     let requestPassword = req.body.password;
 
-    console.log(requestUsername, requestPassword);
+    model.checkLogin(requestUsername, requestPassword);
 
     res.sendStatus(200);
 });
