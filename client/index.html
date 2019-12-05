@@ -22,9 +22,27 @@
     <input type="reset" form="login">
     <button id="submitLogin">Login</button>
 
+    <h1>Register a New Account</h1>
+    <p id="register-error"></p>
+    <form id=register>
+        <label for="fname">First Name:</label> <br>
+        <input type="text" id="fname" name="fname"> <br>
+        <label for="lname">Last Name:</label> <br>
+        <input type="text" id="lname" name="lname"> <br>
+        <label for="username-register">Username:</label> <br>
+        <input type="text" id="username-register" name="username"> <br>
+        <label for="email">Email:</label> <br>
+        <input type="email" id="email" name="email"> <br>
+        <label for="password-register">Password:</label> <br>
+        <input type="password" id="password-register" name="password"> <br>
+    </form>
+
+    <input type="reset" form="register">
+    <button id="submitRegister">Register</button>
+
     <script>
         $(document).ready(() => {
-            console.log( CryptoJS.MD5("hello").toString() );
+            console.log( CryptoJS.MD5("123456").toString() );
             $("#submitLogin").click(() => {
 
                 let username = $("#username").val();
@@ -43,6 +61,7 @@
 
                 // Structure of login package
                 const loginData = {
+                    type: "login",
                     username: username,
                     password: CryptoJS.MD5(password).toString()
                 };
@@ -52,6 +71,20 @@
                 });
                 
 
+            });
+        
+            $("#submitRegister").click(() => {
+                const registerData = {
+                    fname: $("#fname").val(),
+                    lname: $("#lname").val(),
+                    username: $("#username-register").val(),
+                    email: $("#email").val(),
+                    password: $("#password-register").val(),
+                };
+
+                $.post("http://localhost:3000/login", registerData, (data) => {
+                    console.log("The server has responded");
+                });
             });
         });
     </script>

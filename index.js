@@ -16,12 +16,17 @@ app.use(bodyParser.json());
 // Gives Body Parser specific options to run off of.
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.post("/login", (req, res) => {
-    let requestUsername = req.body.username;
-    let requestPassword = req.body.password;
+app.post("/login", (request, response) => {
+    let requestUsername = request.body.username;
+    let requestPassword = request.body.password;
 
-    model.checkLogin(requestUsername, requestPassword);
+    console.log(requestPassword);
 
-    res.sendStatus(200);
+    model.checkLogin(requestUsername, requestPassword).then((results) => {
+        console.log(results);
+        response.sendStatus(200);
+    });
+
+    // response.sendStatus(200);
 });
 
