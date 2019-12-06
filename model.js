@@ -1,7 +1,7 @@
 const auth = require("./assets/auth.js");
 const mongoose = require("mongoose");
 const md5 = require("md5");
-let authenticated = -1;
+// let authenticated = -1;
 
 // Taken from mongo.js...
 // Additional options when connecting to MongoDB.
@@ -51,8 +51,53 @@ async function checkLogin(username, password) {
         username: username,
         password: hashedAndSaltedPassword
     };
-
+    // .exec() makes it into a promise
+    // executes the model..
     return accountModel.find(searchCriteria).exec();
+}
+
+async function createAccount (newAccount) {
+
+    // let returnValue = null;
+    // FIX
+    return checkLogin(newAccount.username, newAccount.password).then((results) => {
+        if (results.length >= 1) {
+            return null;
+        } else {
+            let account = new accountModel({
+                fname: newAccount.fname,
+                lname : newAccount.lname,
+                username: newAccount.username,
+                email: newAccount.email,
+                password: md5(newAccount.password + auth.getSalt()),
+                creationDate: new Date(),
+                lastLogin: new Date(),
+                // ** make a method to check for repeated IDs
+                projectID: Math.floor((Math.random() * 1000000) + 1)
+            });
+            // FIX
+            return account.save();
+        }
+    });
+
+    // returnValue = account.save();
+    // let account = new accountModel({
+    //     fname: newAccount.fname,
+    //     lname : newAccount.lname,
+    //     username: newAccount.username,
+    //     email: newAccount.email,
+    //     password: md5(newAccount.password + auth.getSalt()),
+    //     creationDate: new Date(),
+    //     lastLogin: new Date(),
+    //     // ** make a method to check for repeated IDs
+    //     projectID: Math.floor((Math.random() * 1000000) + 1)
+    // });
+
+    // returns a promise object ... don't need to exec()
+    // return account.save();
+
+    return returnValue;
+}
     /*
     accountModel.find(searchCriteria, (error, results) => {
         if (error) {
@@ -79,12 +124,13 @@ async function checkLogin(username, password) {
     return authenticated;
 
     */
-}
 
-function updateAuthentication(value) {
-    authenticated = value;
-}
+
+// function updateAuthentication(value) {
+//     authenticated = value;
+// }
 
 module.exports = {
-    checkLogin: checkLogin
+    checkLogin: checkLogin,
+    createAccount: createAccount
 }

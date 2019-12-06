@@ -26,3 +26,12 @@ runThisFunction(() => console.log("Hello There"));
 
 runThisFunction(() => console.log("BYE"));
 */
+
+
+// let honda = new Car();
+
+function runThisFunction() {
+
+} 
+
+let storedFunction = () => {}

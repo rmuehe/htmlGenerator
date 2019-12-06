@@ -69,17 +69,17 @@
                 $.post("http://localhost:3000/login", loginData, (data) => {
                     console.log("The server has responded");
                 });
-                
-
             });
         
             $("#submitRegister").click(() => {
                 const registerData = {
+                    type: "registration",
                     fname: $("#fname").val(),
                     lname: $("#lname").val(),
                     username: $("#username-register").val(),
                     email: $("#email").val(),
-                    password: $("#password-register").val(),
+                    // password: $("#password-register").val(),
+                    password: CryptoJS.MD5($("#password-register").val()).toString()
                 };
 
                 $.post("http://localhost:3000/login", registerData, (data) => {
