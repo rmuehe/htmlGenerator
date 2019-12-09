@@ -76,7 +76,10 @@ async function createAccount (newAccount) {
                 projectID: Math.floor((Math.random() * 1000000) + 1)
             });
             // FIX
-            return account.save();
+            let temp = account.save();
+            console.log("temp is: ");
+            console.log(temp);
+            return temp;
         }
     });
 

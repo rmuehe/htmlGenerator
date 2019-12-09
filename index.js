@@ -28,10 +28,13 @@ app.post("/login", (request, response) => {
             console.log(results);
 
             if (results.length === 1) {
-                response.sendStatus(200);
+                // response.sendStatus(200);
+                response.send({success: 0});
             } else {
                 // should also send some more specific error message
-                response.sendStatus(404);
+                response.send({success: 1});
+                // response.sendStatus(200)?;
+
             }
         });
     } else if (request.body.type === "registration") {
@@ -39,13 +42,17 @@ app.post("/login", (request, response) => {
             // response.sendStatus(200);
 
             if (results === null) {
-                response.sendStatus(500);
+                // failed to register
+                response.send({success: 3});
             } else {
-                response.sendStatus(200);
+                // successfully registered
+                response.send({success: 2});
             }
         }).catch((error) => {
             console.log(error);
-            response.sendStatus(500);
+            // something bad happend with backend
+            // try appendFileSync some file, keeps a log... "mongo.log"
+            response.send({success: 4});
         });
     }
     // response.sendStatus(200);

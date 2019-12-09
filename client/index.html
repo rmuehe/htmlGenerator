@@ -12,6 +12,7 @@
 </head>
 <body>
     <h1>Login to Your Account</h1>
+    <p id="login-message"></p>
     <form id="login">
         <label for="username">Username:</label> <br>
         <input type="text" id="username" name="username"> <br>
@@ -23,7 +24,7 @@
     <button id="submitLogin">Login</button>
 
     <h1>Register a New Account</h1>
-    <p id="register-error"></p>
+    <p id="register-message"></p>
     <form id=register>
         <label for="fname">First Name:</label> <br>
         <input type="text" id="fname" name="fname"> <br>
@@ -67,7 +68,16 @@
                 };
                 
                 $.post("http://localhost:3000/login", loginData, (data) => {
-                    console.log("The server has responded");
+                    //console.log("The server has responded");
+                    if (data.success === 1) {
+                        $("#login-message").text("You have successfully logged in");
+
+                        setInterval(() => {
+                            window.location.href = "http://localhost:3000/profile.html";
+                        }, 1000);
+                    } else {
+                        $("#login-message").text("Sorry, wrong username or password. Try again");
+                    }
                 });
             });
         
@@ -84,6 +94,13 @@
 
                 $.post("http://localhost:3000/login", registerData, (data) => {
                     console.log("The server has responded");
+                    if (data.success === 2) {
+                        $("#register-message").text("You have successfully registered an account");
+                    } else if (data.success === 3) {
+                        $("#register-message").text("Sorry, username already taken");
+                    } else if (data.success === 4) {
+                        $("#register-message").text("Sorry, something went wrong");
+                    }
                 });
             });
         });
