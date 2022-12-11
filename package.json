@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/rmuehe/htmlGenerator#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "md5": "^2.2.1",
     "mongoose": "^5.7.13"
   }
